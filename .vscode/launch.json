@@ -9,7 +9,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open mondo.html in Chrome",
-            "url": "file:///${workspaceFolder}/mondo.html"
+            "url": "file:///${workspaceFolder}/html/mondo.html"
         }
     ]
 }
