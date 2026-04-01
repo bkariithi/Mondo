@@ -45,17 +45,15 @@ const tk=document.getElementById('ticker');
 });
 
 // ── Waveforms ──
-['wf0','wf1','wf2','wf3'].forEach((id,i)=>{
-  const el=document.getElementById(id);
+function buildWaveform(el){
   if(!el)return;
-  const playedFrac=[.38,0,.72,.15][i];
   for(let j=0;j<80;j++){
     const b=document.createElement('div');
-    b.className='wf '+(j/80<playedFrac?'p':'u');
+    b.className='wf u';
     b.style.height=(Math.random()*55+20)+'%';
     el.appendChild(b);
   }
-});
+}
 
 // ── Play ──
 function togglePlay(btn){

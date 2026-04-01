@@ -8,6 +8,13 @@
         {
             "type": "chrome",
             "request": "launch",
+            "name": "Open admin.html in Chrome",
+            "url": "file:///${workspaceFolder}/html/admin.html"
+        },
+
+        {
+            "type": "chrome",
+            "request": "launch",
             "name": "Open mondo.html in Chrome",
             "url": "file:///${workspaceFolder}/html/mondo.html"
         }

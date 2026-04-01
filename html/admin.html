@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mondo Admin — Add Mix</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; color: #e0e0e0; font-family: Inter, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 2.5rem; width: 100%; max-width: 520px; }
+  h1 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .sub { font-size: 0.8rem; color: #666; margin-bottom: 2rem; }
+  label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  input, select, textarea { width: 100%; background: #1e1e1e; border: 1px solid #2a2a2a; border-radius: 6px; color: #e0e0e0; font-size: 0.9rem; padding: 0.65rem 0.85rem; margin-bottom: 1.25rem; outline: none; font-family: inherit; }
+  input:focus, select:focus, textarea:focus { border-color: #555; }
+  input[type="file"] { padding: 0.5rem; cursor: pointer; }
+  .progress-wrap { background: #1e1e1e; border-radius: 4px; height: 6px; margin-bottom: 1.25rem; display: none; }
+  .progress-bar { height: 6px; background: #e0e0e0; border-radius: 4px; width: 0%; transition: width 0.2s; }
+  button { width: 100%; background: #e0e0e0; color: #0a0a0a; border: none; border-radius: 6px; padding: 0.75rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  #status { margin-top: 1rem; font-size: 0.85rem; text-align: center; min-height: 1.2em; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .mixes-list { margin-top: 2.5rem; border-top: 1px solid #222; padding-top: 2rem; }
+  .mixes-list h2 { font-size: 0.9rem; color: #888; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .mix-item { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid #1e1e1e; font-size: 0.85rem; }
+  .mix-item .mix-name { font-weight: 500; }
+  .mix-item .mix-meta { color: #666; font-size: 0.75rem; }
+  .del-btn { background: none; border: 1px solid #333; color: #888; border-radius: 4px; padding: 0.2rem 0.6rem; font-size: 0.7rem; width: auto; cursor: pointer; }
+  .del-btn:hover { border-color: #e74c3c; color: #e74c3c; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Add a Mix</h1>
+  <p class="sub">Uploads audio to Supabase Storage and saves to your mixes table.</p>
+
+  <form id="addMixForm">
+    <label>Mix Title</label>
+    <input type="text" id="mixTitle" placeholder="e.g. Dark Gold Vol. 4" required>
+
+    <label>Genre</label>
+    <input type="text" id="mixGenre" placeholder="e.g. Afrobeats · Hip-Hop">
+
+    <label>Duration</label>
+    <input type="text" id="mixDuration" placeholder="e.g. 1:14:22">
+
+    <label>Audio File</label>
+    <input type="file" id="mixFile" accept="audio/*" required>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <button type="submit" id="submitBtn">Upload &amp; Save</button>
+  </form>
+
+  <p id="status"></p>
+
+  <div class="mixes-list">
+    <h2>Saved Mixes</h2>
+    <div id="mixesList"><p style="color:#555;font-size:0.8rem;">Loading…</p></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const _supabase = supabase.createClient(
+    'https://bpvqngjucyvvwkiozjxg.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwdnFuZ2p1Y3l2dndraW96anhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODc0NjQsImV4cCI6MjA5MDU2MzQ2NH0.njHBTn2YsnckzlwTMDKHk4kLtd8n-tiHwr8Dj697JZU'
+  );
+
+  const form = document.getElementById('addMixForm');
+  const statusEl = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+  const progressWrap = document.getElementById('progressWrap');
+  const progressBar = document.getElementById('progressBar');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const title = document.getElementById('mixTitle').value.trim();
+    const genre = document.getElementById('mixGenre').value.trim();
+    const duration = document.getElementById('mixDuration').value.trim();
+    const file = document.getElementById('mixFile').files[0];
+
+    if (!file) { statusEl.textContent = 'Please select an audio file.'; return; }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Uploading…';
+    statusEl.textContent = '';
+    progressWrap.style.display = 'block';
+    progressBar.style.width = '10%';
+
+    // Upload to Supabase Storage
+    const fileName = Date.now() + '_' + file.name.replace(/\s+/g, '_');
+    const { data: uploadData, error: uploadError } = await _supabase.storage
+      .from('mixes')
+      .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+    if (uploadError) {
+      statusEl.style.color = '#e74c3c';
+      statusEl.textContent = 'Upload failed: ' + uploadError.message;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Upload & Save';
+      progressWrap.style.display = 'none';
+      return;
+    }
+
+    progressBar.style.width = '70%';
+
+    // Get public URL
+    const { data: urlData } = _supabase.storage.from('mixes').getPublicUrl(fileName);
+    const audioUrl = urlData.publicUrl;
+
+    progressBar.style.width = '85%';
+
+    // Insert into mixes table
+    const { error: insertError } = await _supabase.from('mixes').insert({
+      title: title,
+      genre: genre,
+      duration: duration,
+      audio_url: audioUrl,
+    });
+
+    progressBar.style.width = '100%';
+
+    if (insertError) {
+      statusEl.style.color = '#e74c3c';
+      statusEl.textContent = 'Saved to storage but DB insert failed: ' + insertError.message;
+    } else {
+      statusEl.style.color = '#2ecc71';
+      statusEl.textContent = 'Mix added successfully!';
+      form.reset();
+      loadMixes();
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Upload & Save';
+    setTimeout(() => { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; }, 1000);
+  });
+
+  async function loadMixes() {
+    const { data, error } = await _supabase
+      .from('mixes')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    const container = document.getElementById('mixesList');
+    if (error || !data || data.length === 0) {
+      container.innerHTML = '<p style="color:#555;font-size:0.8rem;">No mixes yet.</p>';
+      return;
+    }
+    container.innerHTML = data.map(m => `
+      <div class="mix-item">
+        <div>
+          <div class="mix-name">${m.title}</div>
+          <div class="mix-meta">${[m.genre, m.duration].filter(Boolean).join(' · ')}</div>
+        </div>
+        <button class="del-btn" onclick="deleteMix(${m.id}, '${m.audio_url}')">Delete</button>
+      </div>
+    `).join('');
+  }
+
+  async function deleteMix(id, audioUrl) {
+    if (!confirm('Delete this mix?')) return;
+    // Extract filename from URL
+    const fileName = audioUrl.split('/mixes/')[1];
+    if (fileName) await _supabase.storage.from('mixes').remove([fileName]);
+    await _supabase.from('mixes').delete().eq('id', id);
+    loadMixes();
+  }
+
+  loadMixes();
+</script>
+</body>
+</html>
