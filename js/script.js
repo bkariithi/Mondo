@@ -63,6 +63,21 @@ window.addEventListener('scroll', () => {
   hdr.classList.toggle('scrolled', window.scrollY > 20);
 });
 
+// ── Mobile nav ──
+(function() {
+  const btn = document.getElementById('mobMenuBtn');
+  const nav = document.getElementById('mobNav');
+  if (!btn || !nav) return;
+  btn.addEventListener('click', function() {
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('.mob-nav-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      nav.classList.remove('open');
+    });
+  });
+})();
+
 
 // ── Ticker ──
 const tItems = ['Afrobeats','Amapiano','Dancehall','Festivals','Private Events','Hip-Hop','International Tours','Boiler Room','R&B','Dance Mixes','AV Rentals'];

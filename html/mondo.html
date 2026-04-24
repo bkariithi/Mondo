@@ -30,9 +30,23 @@
     <div class="header-actions">
       <button class="btn-secondary" onclick="document.getElementById('mixes').scrollIntoView({behavior:'smooth'})">Listen</button>
       <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+      <button class="mob-menu-btn" id="mobMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<!-- Mobile nav drawer -->
+<div class="mob-nav" id="mobNav">
+  <nav>
+    <a href="#services" class="mob-nav-link">Services</a>
+    <a href="#events" class="mob-nav-link">Shows</a>
+    <a href="#mixes" class="mob-nav-link">Mixes</a>
+    <a href="#press" class="mob-nav-link">Press</a>
+    <a href="#contact" class="mob-nav-link">Book Now</a>
+  </nav>
+</div>
 
 <!-- ══════════════════ HERO ══════════════════ -->
 <section class="hero" id="home">
