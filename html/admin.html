@@ -27,43 +27,134 @@
   .mix-item .mix-meta { color: #666; font-size: 0.75rem; }
   .del-btn { background: none; border: 1px solid #333; color: #888; border-radius: 4px; padding: 0.2rem 0.6rem; font-size: 0.7rem; width: auto; cursor: pointer; }
   .del-btn:hover { border-color: #e74c3c; color: #e74c3c; }
+  .page { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .tab-switcher { display: flex; background: #1e1e1e; border: 1px solid #2a2a2a; border-radius: 8px; padding: 4px; gap: 4px; margin-bottom: 2rem; }
+  .tab-btn { flex: 1; background: none; border: none; color: #666; border-radius: 6px; padding: 0.5rem 1.5rem; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s; width: auto; }
+  .tab-btn.active { background: #e0e0e0; color: #0a0a0a; }
+  .tab-panel { display: none; width: 100%; }
+  .tab-panel.active { display: block; }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>Add a Mix</h1>
-  <p class="sub">Uploads audio to Supabase Storage and saves to your mixes table.</p>
+<div class="page">
+  <div class="tab-switcher">
+    <button type="button" class="tab-btn active" onclick="switchTab('mixes')">Mixes</button>
+    <button type="button" class="tab-btn" onclick="switchTab('shows')">Shows</button>
+    <button type="button" class="tab-btn" onclick="switchTab('flyers')">Flyers</button>
+  </div>
 
-  <form id="addMixForm">
-    <label>Mix Title</label>
-    <input type="text" id="mixTitle" placeholder="e.g. Dark Gold Vol. 4" required>
+  <div class="card" style="width:100%;max-width:520px;">
 
-    <label>Genre</label>
-    <input type="text" id="mixGenre" placeholder="e.g. Afrobeats · Hip-Hop">
+    <!-- Mixes Panel -->
+    <div class="tab-panel active" id="panel-mixes">
+      <h1>Add a Mix</h1>
+      <p class="sub">Uploads audio to Supabase Storage and saves to your mixes table.</p>
 
-    <label>Duration</label>
-    <input type="text" id="mixDuration" placeholder="e.g. 1:14:22">
+      <form id="addMixForm">
+        <label>Mix Title</label>
+        <input type="text" id="mixTitle" placeholder="e.g. Dark Gold Vol. 4" required>
 
-    <label>Audio File</label>
-    <input type="file" id="mixFile" accept="audio/*" required>
+        <label>Genre</label>
+        <input type="text" id="mixGenre" placeholder="e.g. Afrobeats · Hip-Hop">
 
-    <div class="progress-wrap" id="progressWrap">
-      <div class="progress-bar" id="progressBar"></div>
+        <label>Duration</label>
+        <input type="text" id="mixDuration" placeholder="e.g. 1:14:22">
+
+        <label>Audio File</label>
+        <input type="file" id="mixFile" accept="audio/*" required>
+
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <button type="submit" id="submitBtn">Upload &amp; Save</button>
+      </form>
+
+      <p id="status"></p>
+
+      <div class="mixes-list">
+        <h2>Saved Mixes</h2>
+        <div id="mixesList"><p style="color:#555;font-size:0.8rem;">Loading…</p></div>
+      </div>
     </div>
 
-    <button type="submit" id="submitBtn">Upload &amp; Save</button>
-  </form>
+    <!-- Shows Panel -->
+    <div class="tab-panel" id="panel-shows">
+      <h1>Add a Show</h1>
+      <p class="sub">Save upcoming performances to your shows table.</p>
 
-  <p id="status"></p>
+      <form id="addShowForm">
+        <label>Event Title</label>
+        <input type="text" id="showTitle" placeholder="e.g. Mondo at Echostage" required>
 
-  <div class="mixes-list">
-    <h2>Saved Mixes</h2>
-    <div id="mixesList"><p style="color:#555;font-size:0.8rem;">Loading…</p></div>
+        <label>Venue</label>
+        <input type="text" id="showVenue" placeholder="e.g. Echostage">
+
+        <label>Location</label>
+        <input type="text" id="showLocation" placeholder="e.g. Washington, DC">
+
+        <label>Date &amp; Time</label>
+        <input type="datetime-local" id="showDate">
+
+        <label>Ticket URL</label>
+        <input type="url" id="showTicketUrl" placeholder="https://...">
+
+        <button type="submit" id="showSubmitBtn">Save Show</button>
+      </form>
+
+      <p id="showStatus" style="margin-top:1rem;font-size:0.85rem;text-align:center;min-height:1.2em;"></p>
+
+      <div class="mixes-list">
+        <h2>Upcoming Shows</h2>
+        <div id="showsList"><p style="color:#555;font-size:0.8rem;">Loading…</p></div>
+      </div>
+    </div>
+
+    <!-- Flyers Panel -->
+    <div class="tab-panel" id="panel-flyers">
+      <h1>Add a Flyer</h1>
+      <p class="sub">Uploads a flyer image to Supabase Storage and saves to your flyers table.</p>
+
+      <form id="addFlyerForm">
+        <label>Event Name</label>
+        <input type="text" id="flyerTitle" placeholder="e.g. Mondo at Exchange LA" required>
+
+        <label>Event Date</label>
+        <input type="date" id="flyerDate">
+
+        <label>Ticket Link (optional)</label>
+        <input type="url" id="flyerTicketUrl" placeholder="https://...">
+
+        <label>Flyer Image</label>
+        <input type="file" id="flyerFile" accept="image/*" required>
+
+        <div class="progress-wrap" id="flyerProgressWrap">
+          <div class="progress-bar" id="flyerProgressBar"></div>
+        </div>
+
+        <button type="submit" id="flyerSubmitBtn">Upload &amp; Save</button>
+      </form>
+
+      <p id="flyerStatus" style="margin-top:1rem;font-size:0.85rem;text-align:center;min-height:1.2em;"></p>
+
+      <div class="mixes-list">
+        <h2>Uploaded Flyers</h2>
+        <div id="flyersList"><p style="color:#555;font-size:0.8rem;">Loading…</p></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('panel-' + tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+
   const _supabase = supabase.createClient(
     'https://bpvqngjucyvvwkiozjxg.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwdnFuZ2p1Y3l2dndraW96anhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODc0NjQsImV4cCI6MjA5MDU2MzQ2NH0.njHBTn2YsnckzlwTMDKHk4kLtd8n-tiHwr8Dj697JZU'
@@ -170,6 +261,177 @@
   }
 
   loadMixes();
+
+  // ── Shows ──
+  const showForm = document.getElementById('addShowForm');
+  const showStatusEl = document.getElementById('showStatus');
+  const showSubmitBtn = document.getElementById('showSubmitBtn');
+
+  showForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    showSubmitBtn.disabled = true;
+    showSubmitBtn.textContent = 'Saving…';
+    showStatusEl.textContent = '';
+
+    const { error } = await _supabase.from('shows').insert({
+      title:      document.getElementById('showTitle').value.trim(),
+      venue:      document.getElementById('showVenue').value.trim(),
+      location:   document.getElementById('showLocation').value.trim(),
+      event_date: document.getElementById('showDate').value || null,
+      ticket_url: document.getElementById('showTicketUrl').value.trim() || null,
+    });
+
+    if (error) {
+      showStatusEl.style.color = '#e74c3c';
+      showStatusEl.textContent = 'Error: ' + error.message;
+    } else {
+      showStatusEl.style.color = '#2ecc71';
+      showStatusEl.textContent = 'Show saved!';
+      showForm.reset();
+      loadShows();
+    }
+
+    showSubmitBtn.disabled = false;
+    showSubmitBtn.textContent = 'Save Show';
+  });
+
+  async function loadShows() {
+    const { data, error } = await _supabase
+      .from('shows')
+      .select('*')
+      .order('event_date', { ascending: true });
+
+    const container = document.getElementById('showsList');
+    if (error || !data || data.length === 0) {
+      container.innerHTML = '<p style="color:#555;font-size:0.8rem;">No shows yet.</p>';
+      return;
+    }
+    container.innerHTML = data.map(s => {
+      const dateStr = s.event_date
+        ? new Date(s.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })
+        : 'TBD';
+      return `
+        <div class="mix-item">
+          <div>
+            <div class="mix-name">${s.title}</div>
+            <div class="mix-meta">${[s.venue, s.location, dateStr].filter(Boolean).join(' · ')}</div>
+          </div>
+          <button class="del-btn" onclick="deleteShow(${s.id})">Delete</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function deleteShow(id) {
+    if (!confirm('Delete this show?')) return;
+    await _supabase.from('shows').delete().eq('id', id);
+    loadShows();
+  }
+
+  loadShows();
+
+  // ── Flyers ──
+  const flyerForm = document.getElementById('addFlyerForm');
+  const flyerStatusEl = document.getElementById('flyerStatus');
+  const flyerSubmitBtn = document.getElementById('flyerSubmitBtn');
+  const flyerProgressWrap = document.getElementById('flyerProgressWrap');
+  const flyerProgressBar = document.getElementById('flyerProgressBar');
+
+  flyerForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const title = document.getElementById('flyerTitle').value.trim();
+    const date  = document.getElementById('flyerDate').value || null;
+    const file  = document.getElementById('flyerFile').files[0];
+
+    if (!file) { flyerStatusEl.textContent = 'Please select an image.'; return; }
+
+    flyerSubmitBtn.disabled = true;
+    flyerSubmitBtn.textContent = 'Uploading…';
+    flyerStatusEl.textContent = '';
+    flyerProgressWrap.style.display = 'block';
+    flyerProgressBar.style.width = '10%';
+
+    const fileName = Date.now() + '_' + file.name.replace(/\s+/g, '_');
+    const { data: uploadData, error: uploadError } = await _supabase.storage
+      .from('flyers')
+      .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+    if (uploadError) {
+      flyerStatusEl.style.color = '#e74c3c';
+      flyerStatusEl.textContent = 'Upload failed: ' + uploadError.message;
+      flyerSubmitBtn.disabled = false;
+      flyerSubmitBtn.textContent = 'Upload & Save';
+      flyerProgressWrap.style.display = 'none';
+      return;
+    }
+
+    flyerProgressBar.style.width = '70%';
+
+    const { data: urlData } = _supabase.storage.from('flyers').getPublicUrl(fileName);
+    const imageUrl = urlData.publicUrl;
+
+    flyerProgressBar.style.width = '85%';
+
+    const { error: insertError } = await _supabase.from('flyers').insert({
+      title:      title,
+      event_date: date,
+      image_url:  imageUrl,
+      ticket_url: document.getElementById('flyerTicketUrl').value.trim() || null,
+    });
+
+    flyerProgressBar.style.width = '100%';
+
+    if (insertError) {
+      flyerStatusEl.style.color = '#e74c3c';
+      flyerStatusEl.textContent = 'Saved to storage but DB insert failed: ' + insertError.message;
+    } else {
+      flyerStatusEl.style.color = '#2ecc71';
+      flyerStatusEl.textContent = 'Flyer uploaded!';
+      flyerForm.reset();
+      loadFlyers();
+    }
+
+    flyerSubmitBtn.disabled = false;
+    flyerSubmitBtn.textContent = 'Upload & Save';
+    setTimeout(() => { flyerProgressWrap.style.display = 'none'; flyerProgressBar.style.width = '0%'; }, 1000);
+  });
+
+  async function loadFlyers() {
+    const { data, error } = await _supabase
+      .from('flyers')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    const container = document.getElementById('flyersList');
+    if (error || !data || data.length === 0) {
+      container.innerHTML = '<p style="color:#555;font-size:0.8rem;">No flyers yet.</p>';
+      return;
+    }
+    container.innerHTML = data.map(f => {
+      const dateStr = f.event_date
+        ? new Date(f.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : '';
+      return `
+        <div class="mix-item">
+          <div>
+            <div class="mix-name">${f.title}</div>
+            <div class="mix-meta">${dateStr}</div>
+          </div>
+          <button class="del-btn" onclick="deleteFlyer(${f.id}, '${f.image_url}')">Delete</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function deleteFlyer(id, imageUrl) {
+    if (!confirm('Delete this flyer?')) return;
+    const fileName = imageUrl.split('/flyers/')[1];
+    if (fileName) await _supabase.storage.from('flyers').remove([fileName]);
+    await _supabase.from('flyers').delete().eq('id', id);
+    loadFlyers();
+  }
+
+  loadFlyers();
 </script>
 </body>
 </html>

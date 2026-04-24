@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> DJ MONDO </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -19,13 +19,13 @@
 <header id="site-header">
   <div class="header-inner">
     <div class="header-logo">
-      <a href="#"><img src="../assets/deejay-mondo-transparent.png"></a>
+      <a href="#"><img src="../assets/1000017677.png"></a>
     </div>
     <ul class="header-nav">
       <li><a href="#services">Services</a></li>
       <li><a href="#events">Shows</a></li>
       <li><a href="#mixes">Mixes</a></li>
-      <li><a href="#contact">Press</a></li>
+      <li><a href="#press">Press</a></li>
     </ul>
     <div class="header-actions">
       <button class="btn-secondary" onclick="document.getElementById('mixes').scrollIntoView({behavior:'smooth'})">Listen</button>
@@ -37,26 +37,20 @@
 <!-- ══════════════════ HERO ══════════════════ -->
 <section class="hero" id="home">
   <div class="hero-media-bg"></div>
+  <canvas id="waveCanvas"></canvas>
   <div class="hero-logo-stage">
     <img src="../assets/1000017677.png">
   </div>
-  <div class="hero-actions-center">
-    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Show</button>
-    <button class="btn-secondary" onclick="document.getElementById('mixes').scrollIntoView({behavior:'smooth'})">Latest Mixes</button>
-  </div>
-  <div class="hero-bottom">
-    <div class="hero-meta-row">
-      <div class="meta-item">Genre <span>Afrobeats · Hip-Hop · R&B</span></div>
-      <div class="meta-item">Origin <span>Bay Area · Kenya</span></div>
-      <div class="meta-item">Active <span>Since 2024</span></div>
+  <div class="hero-content">
+    <h1 class="hero-title">MON<span>D</span>O</h1>
+    <p class="hero-eyebrow">DJ · Est. 2024</p>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Crafting immersive sonic landscapes where darkness meets gold — from underground clubs to festival main stages.</p>
+    <div class="hero-actions-center">
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Show</button>
+      <button class="btn-secondary" onclick="document.getElementById('mixes').scrollIntoView({behavior:'smooth'})">Latest Mixes</button>
     </div>
-  </div>
 </section>
-
-<!-- ══════════════════ TICKER ══════════════════ -->
-<div class="ticker-strip">
-  <div class="ticker-track" id="ticker"></div>
-</div>
 
 <!-- ══════════════════ SERVICES ══════════════════ -->
 <section id="services">
@@ -66,17 +60,14 @@
         <p class="section-eyebrow">What I Offer</p>
         <h2 class="section-title">Services</h2>
       </div>
-      <span class="section-meta">06 Offerings</span>
     </div>
-
     <div class="poster-rail">
       <div class="poster-card reveal">
-        <div class="poster-thumb">
+        <div class="poster-thumb" style="background-image: url('../assets/IMG_8092.JPG')">
           <div class="poster-thumb-inner">
             <div class="poster-num">01</div>
-            <span class="poster-icon">🎧</span>
           </div>
-          <div class="poster-overlay"><button class="poster-overlay-btn">Enquire</button></div>
+          <div class="poster-overlay"><button class="poster-overlay-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button></div>
         </div>
         <div class="poster-info">
           <div class="poster-title">Club &amp; Festival</div>
@@ -88,12 +79,11 @@
       </div>
 
       <div class="poster-card reveal">
-        <div class="poster-thumb">
+        <div class="poster-thumb" style="background-image: url('../assets/collegeevents.png')">
           <div class="poster-thumb-inner">
             <div class="poster-num">02</div>
-            <span class="poster-icon">✦</span>
           </div>
-          <div class="poster-overlay"><button class="poster-overlay-btn">Enquire</button></div>
+          <div class="poster-overlay"><button class="poster-overlay-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button></div>
         </div>
         <div class="poster-info">
           <div class="poster-title">Private Events</div>
@@ -105,11 +95,11 @@
       </div>
 
       <div class="poster-card reveal">
-        <div class="poster-thumb" style="background-image: url('../assets/dominic-hampton-CvVop2KR6IE-unsplash.jpg')">
+        <div class="poster-thumb" style="background-image: url('../assets/48FD860D-0D53-46F4-9F01-1AAA7421621C_1_105_c.jpeg')">
           <div class="poster-thumb-inner">
             <div class="poster-num">03</div>
           </div>
-          <div class="poster-overlay"><button class="poster-overlay-btn">Listen</button></div>
+          <div class="poster-overlay"><button class="poster-overlay-btn" onclick="document.getElementById('mixes').scrollIntoView({behavior:'smooth'})">Listen</button></div>
         </div>
         <div class="poster-info">
           <div class="poster-title">College Events &amp; Showcases</div>
@@ -121,12 +111,11 @@
       </div>
 
       <div class="poster-card reveal">
-        <div class="poster-thumb">
+        <div class="poster-thumb" style="background-image: url('../assets/IMG_6627.JPG')">
           <div class="poster-thumb-inner">
             <div class="poster-num">04</div>
-            <span class="poster-icon">🎚</span>
           </div>
-          <div class="poster-overlay"><button class="poster-overlay-btn">Enquire</button></div>
+          <div class="poster-overlay"><button class="poster-overlay-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button></div>
         </div>
         <div class="poster-info">
           <div class="poster-title">Production</div>
@@ -138,12 +127,11 @@
       </div>
 
       <div class="poster-card reveal">
-        <div class="poster-thumb">
+        <div class="poster-thumb" style="background-image: url('../assets/IMG_0444.JPG')">
           <div class="poster-thumb-inner">
             <div class="poster-num">05</div>
-            <span class="poster-icon">🌍</span>
           </div>
-          <div class="poster-overlay"><button class="poster-overlay-btn">Enquire</button></div>
+          <div class="poster-overlay"><button class="poster-overlay-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button></div>
         </div>
         <div class="poster-info">
           <div class="poster-title">Travel</div>
@@ -154,12 +142,11 @@
       </div>
 
       <div class="poster-card reveal">
-        <div class="poster-thumb">
+        <div class="poster-thumb" style="background: url('../assets/1000017677.png') center/52% no-repeat, linear-gradient(135deg, #0a0a0a 0%, #1a1508 50%, #0f0c02 100%);">
           <div class="poster-thumb-inner">
             <div class="poster-num">06</div>
-            <span class="poster-icon">⚡</span>
           </div>
-          <div class="poster-overlay"><button class="poster-overlay-btn">Enquire</button></div>
+          <div class="poster-overlay"><button class="poster-overlay-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button></div>
         </div>
         <div class="poster-info">
           <div class="poster-title">Brand</div>
@@ -181,45 +168,11 @@
         <p class="section-eyebrow">Live Dates</p>
         <h2 class="section-title">Upcoming Shows</h2>
       </div>
-      <a href="#" class="btn-secondary">View All</a>
+      <button class="btn-secondary" id="viewAllShowsBtn">View All</button>
     </div>
 
-    <div class="event-list">
-      <div class="ev reveal">
-        <div class="ev-date"><div class="ev-mo">Mar</div><div class="ev-dy">18</div></div>
-        <div class="ev-info"><div class="ev-name">AE New Member Presentation</div><div class="ev-venue">Alpha Phi Alpha</div></div>
-        <div class="ev-time">9:06 — 12:00</div>
-        <div class="ev-city">Berkeley, CA</div>
-        <div class="ev-action"><button class="ev-btn">Get Tickets</button></div>
-      </div>
-      <div class="ev reveal">
-        <div class="ev-date"><div class="ev-mo">Mar</div><div class="ev-dy">21</div></div>
-        <div class="ev-info"><div class="ev-name">Berkeley High Prom</div><div class="ev-venue">BHS</div></div>
-        <div class="ev-time">8:30 — 11:00</div>
-        <div class="ev-city">Berkeley, CA</div>
-        <div class="ev-action"><button class="ev-btn">Get Tickets</button></div>
-      </div>
-      <div class="ev reveal">
-        <div class="ev-date"><div class="ev-mo">Apr</div><div class="ev-dy">7</div></div>
-        <div class="ev-info"><div class="ev-name">77th Regional Convention</div><div class="ev-venue">Alpha Phi Alpha</div></div>
-        <div class="ev-time">6:00 — 9:00</div>
-        <div class="ev-city">Tuscon, AZ</div>
-        <div class="ev-action"><button class="ev-btn">Get Tickets</button></div>
-      </div>
-      <div class="ev reveal">
-        <div class="ev-date"><div class="ev-mo">Apr</div><div class="ev-dy">11</div></div>
-        <div class="ev-info"><div class="ev-name">Afro Gala</div><div class="ev-venue">SJSU ASO</div></div>
-        <div class="ev-time">6:00 — 11:00</div>
-        <div class="ev-city">San Jose, CA</div>
-        <div class="ev-action"><button class="ev-btn">Get Tickets</button></div>
-      </div>
-      <div class="ev reveal">
-        <div class="ev-date"><div class="ev-mo">Apr</div><div class="ev-dy">16</div></div>
-        <div class="ev-info"><div class="ev-name">Mondo x AO: R&Beats</div><div class="ev-venue">Afrobeats Oakland</div></div>
-        <div class="ev-time">10:00 — 1:00</div>
-        <div class="ev-city">Berkeley, CA</div>
-        <div class="ev-action"><button class="ev-btn">Get Tickets</button></div>
-      </div>
+    <div class="event-list" id="showsList">
+      <p style="color:#555;font-size:0.85rem;">Loading shows…</p>
     </div>
   </div>
 </section>
@@ -237,7 +190,7 @@
       <div class="promo-media reveal">
         <div class="promo-grid-bg"></div>
         <div class="promo-media-bg">
-          <img src="../assets/IMG_6741.JPG">
+          <img src="../assets/IMG_7151 2.JPG">
         </div>
         <div class="promo-media-label">Est. 2024</div>
       </div>
@@ -261,44 +214,26 @@
   </div>
 </section>
 
-<!-- ══════════════════ PROMO STRIP 2 — Radio ══════════════════ -->
-<div class="promo-strip">
-  <div class="inner" style="padding:0; max-width:100%;">
-    <div class="promo-inner reverse">
-      <div class="promo-text reveal" style="padding-right:var(--margin); padding-left:var(--s64);">
-        <p class="promo-eyebrow">Radio &amp; Podcast</p>
-        <h2 class="promo-title">Monthly<br><em>transmissions</em></h2>
-        <p class="promo-body">Tune in to Mondo's monthly podcast — an hour of boundary-pushing sounds from underground scenes worldwide. Available on SoundCloud, Mixcloud, and Spotify.</p>
-        <a href="#mixes" class="promo-cta">Listen Now <span class="promo-cta-arrow">→</span></a>
-      </div>
-      <div class="promo-media reveal" style="background:var(--surfaceRaised);">
-        <div class="promo-grid-bg"></div>
-        <div class="promo-viz-bars" id="pviz"></div>
-        <div class="promo-media-label">SoundCloud · Mixcloud</div>
+<!-- ══════════════════ PRESS / FLYERS ══════════════════ -->
+<section id="press">
+  <div class="inner">
+    <div class="section-head reveal">
+      <div>
+        <p class="section-eyebrow">Press</p>
+        <h2 class="section-title">Event Flyers</h2>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ══════════════════ NEWSLETTER ══════════════════ -->
-<section id="newsletter">
-  <div class="inner">
-    <div class="newsletter-inner reveal">
-      <div class="nl-left">
-        <p class="nl-eyebrow">Stay Connected</p>
-        <h2 class="nl-title">Letters from<br><em>the dancefloor</em></h2>
-        <p class="nl-body">Tour dates, new mixes, behind-the-scenes dispatches. Not too often — just enough.</p>
-      </div>
-      <div class="nl-form">
-        <div class="nl-input-wrap">
-          <input class="nl-input" type="email" placeholder="Your email address">
-          <button class="btn-primary">Subscribe</button>
-        </div>
-        <p class="nl-small">By subscribing you agree to the privacy policy. Unsubscribe anytime.</p>
-      </div>
+    <div class="flyer-grid" id="flyerGrid">
+      <p style="opacity:0.4;padding:2rem 0;">Loading flyers…</p>
     </div>
   </div>
 </section>
+
+<!-- Lightbox -->
+<div id="flyerLightbox" class="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+</div>
 
 <!-- ══════════════════ CONTACT ══════════════════ -->
 <section id="contact">
@@ -342,9 +277,9 @@
             <input class="ff date-picker-input" type="text" placeholder="Event Date" id="eventDateInput" readonly>
             <div class="date-picker-popup" id="datePickerPopup">
               <div class="dp-header">
-                <button class="dp-nav" id="dpPrev">&#8249;</button>
+                <button type="button" class="dp-nav" id="dpPrev">&#8249;</button>
                 <span class="dp-month-label" id="dpMonthLabel"></span>
-                <button class="dp-nav" id="dpNext">&#8250;</button>
+                <button type="button" class="dp-nav" id="dpNext">&#8250;</button>
               </div>
               <div class="dp-days-header">
                 <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
@@ -374,10 +309,12 @@
                   </select>
                 </div>
               </div>
-              <button class="dp-confirm" id="dpConfirm">Confirm</button>
+              <button type="button" class="dp-confirm" id="dpConfirm">Confirm</button>
             </div>
           </div>
         </div>
+        <input type="hidden" id="eventStartISO">
+        <input type="hidden" id="eventEndISO">
         <input class="ff" id="bookingVenue" type="text" placeholder="Venue &amp; Location">
         <textarea class="ff" id="bookingMessage" placeholder="Tell Mondo about your event, audience, and any requirements…"></textarea>
         <div>
@@ -426,7 +363,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© 2025 MONDO. All Rights Reserved.</p>
+      <p class="footer-copy">© 2026 MONDO. All Rights Reserved.</p>
       <div class="footer-socials">
         <a href="#" class="soc">IG</a>
         <a href="#" class="soc">SC</a>
@@ -437,6 +374,22 @@
   </div>
 </footer>
 
+<!-- All Shows Modal -->
+<div id="allShowsModal" class="shows-modal">
+  <div class="shows-modal-inner">
+    <div class="shows-modal-head">
+      <div>
+        <p class="section-eyebrow">Live Dates</p>
+        <h2 class="section-title">All Shows</h2>
+      </div>
+      <button class="shows-modal-close" id="allShowsClose">✕</button>
+    </div>
+    <div class="event-list" id="allShowsList">
+      <p style="opacity:0.4;padding:2rem 0;">Loading…</p>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../js/script.js"></script>
 <script>
@@ -444,6 +397,50 @@
     'https://bpvqngjucyvvwkiozjxg.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwdnFuZ2p1Y3l2dndraW96anhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODc0NjQsImV4cCI6MjA5MDU2MzQ2NH0.njHBTn2YsnckzlwTMDKHk4kLtd8n-tiHwr8Dj697JZU'
   );
+
+  // ── Load Flyers ──
+  (async function loadFlyers() {
+    const { data: flyers, error } = await _supabase
+      .from('flyers')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    const grid = document.getElementById('flyerGrid');
+    if (error || !flyers || flyers.length === 0) {
+      grid.innerHTML = '<p style="opacity:0.4;padding:2rem 0;">No flyers uploaded yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = '';
+    flyers.forEach(function(flyer) {
+      const card = document.createElement('div');
+      card.className = 'flyer-card reveal';
+      const dateStr = flyer.event_date
+        ? new Date(flyer.event_date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : '';
+      card.innerHTML =
+        '<div class="flyer-thumb">' +
+          '<img src="' + flyer.image_url + '" alt="' + (flyer.title || 'Event flyer') + '" loading="lazy">' +
+          '<div class="flyer-overlay">' +
+            '<button class="flyer-overlay-btn view-btn">View Flyer</button>' +
+            (flyer.ticket_url ? '<a class="flyer-overlay-btn tickets-btn" href="' + flyer.ticket_url + '" target="_blank" rel="noopener">Get Tickets</a>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="flyer-info">' +
+          '<div class="flyer-name">' + (flyer.title || '') + '</div>' +
+          (dateStr ? '<div class="flyer-date">' + dateStr + '</div>' : '') +
+        '</div>';
+      card.querySelector('.view-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        openLightbox(flyer.image_url, flyer.title);
+      });
+      if (flyer.ticket_url) {
+        card.querySelector('.tickets-btn').addEventListener('click', function(e) { e.stopPropagation(); });
+      }
+      grid.appendChild(card);
+      if (window._revealObs) window._revealObs.observe(card);
+    });
+  })();
 
   // ── Load Mixes ──
   (async function loadMixes() {
@@ -491,6 +488,46 @@
     });
   })();
 
+  // ── Load Shows ──
+  (async function loadShows() {
+    const { data: shows, error } = await _supabase
+      .from('shows')
+      .select('*')
+      .order('event_date', { ascending: true });
+
+    const container = document.getElementById('showsList');
+    if (error || !shows || shows.length === 0) {
+      container.innerHTML = '<p style="color:#555;font-size:0.85rem;">No upcoming shows.</p>';
+      return;
+    }
+
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    container.innerHTML = shows.map(function(s) {
+      let mo = '', dy = '', timeStr = '';
+      if (s.event_date) {
+        const d = new Date(s.event_date);
+        mo = MONTHS[d.getMonth()];
+        dy = d.getDate();
+        timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      }
+      const ticketBtn = s.ticket_url
+        ? '<a href="' + s.ticket_url + '" target="_blank" rel="noopener"><button class="ev-btn">Get Tickets</button></a>'
+        : '<button class="ev-btn" disabled>TBA</button>';
+      return '<div class="ev reveal">' +
+        '<div class="ev-date"><div class="ev-mo">' + mo + '</div><div class="ev-dy">' + dy + '</div></div>' +
+        '<div class="ev-info"><div class="ev-name">' + s.title + '</div><div class="ev-venue">' + (s.venue || '') + '</div></div>' +
+        '<div class="ev-time">' + timeStr + '</div>' +
+        '<div class="ev-city">' + (s.location || '') + '</div>' +
+        '<div class="ev-action">' + ticketBtn + '</div>' +
+        '</div>';
+    }).join('');
+
+    // re-observe new elements for reveal animation
+    if (window._revealObs) {
+      container.querySelectorAll('.ev').forEach(function(el) { window._revealObs.observe(el); });
+    }
+  })();
+
   document.getElementById('bookingForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn = document.getElementById('bookingSubmitBtn');
@@ -503,13 +540,15 @@
       name:       document.getElementById('bookingName').value.trim(),
       email:      document.getElementById('bookingEmail').value.trim(),
       event_type: document.getElementById('eventTypeInput').value.trim(),
-      event_date: document.getElementById('eventDateInput').value.trim(),
+      event_start: document.getElementById('eventStartISO').value || null,
+      event_end:   document.getElementById('eventEndISO').value   || null,
       venue:      document.getElementById('bookingVenue').value.trim(),
       message:    document.getElementById('bookingMessage').value.trim(),
     });
 
     status.style.display = 'block';
     if (error) {
+      console.log(error);
       status.style.color = '#e74c3c';
       status.textContent = 'Something went wrong. Please try again or email directly.';
       btn.disabled = false;
@@ -521,6 +560,63 @@
       btn.textContent = 'Sent!';
     }
   });
+
+  // ── All Shows Modal ──
+  (function() {
+    const btn   = document.getElementById('viewAllShowsBtn');
+    const modal = document.getElementById('allShowsModal');
+    const close = document.getElementById('allShowsClose');
+    if (!btn || !modal) return;
+
+    btn.addEventListener('click', function() {
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      populateAllShows();
+    });
+    close.addEventListener('click', function() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) { modal.classList.remove('open'); document.body.style.overflow = ''; }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        modal.classList.remove('open'); document.body.style.overflow = '';
+      }
+    });
+
+    async function populateAllShows() {
+      const list = document.getElementById('allShowsList');
+      list.innerHTML = '<p style="opacity:0.4;padding:2rem 0;">Loading…</p>';
+      const { data: shows, error } = await _supabase
+        .from('shows').select('*').order('event_date', { ascending: true });
+      if (error || !shows || shows.length === 0) {
+        list.innerHTML = '<p style="opacity:0.4;padding:2rem 0;">No upcoming shows.</p>';
+        return;
+      }
+      const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      list.innerHTML = shows.map(function(s) {
+        let mo = '', dy = '', timeStr = '';
+        if (s.event_date) {
+          const d = new Date(s.event_date);
+          mo = MONTHS[d.getMonth()];
+          dy = d.getDate();
+          timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        }
+        const ticketBtn = s.ticket_url
+          ? '<a href="' + s.ticket_url + '" target="_blank" rel="noopener"><button class="ev-btn">Get Tickets</button></a>'
+          : '<button class="ev-btn" disabled>TBA</button>';
+        return '<div class="ev">' +
+          '<div class="ev-date"><div class="ev-mo">' + mo + '</div><div class="ev-dy">' + dy + '</div></div>' +
+          '<div class="ev-info"><div class="ev-name">' + s.title + '</div><div class="ev-venue">' + (s.venue || '') + '</div></div>' +
+          '<div class="ev-time">' + timeStr + '</div>' +
+          '<div class="ev-city">' + (s.location || '') + '</div>' +
+          '<div class="ev-action">' + ticketBtn + '</div>' +
+          '</div>';
+      }).join('');
+    }
+  })();
 </script>
 </body>
 </html>
